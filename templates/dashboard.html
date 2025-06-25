@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Login Anomaly Detector - Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; background: #181c1f; color: #e0e0e0; }
+        h1 { color: #7fffd4; }
+        .log-box { background: #23272a; padding: 1em; margin: 1em 0; border-radius: 8px; }
+        .alert { color: #ff6f61; font-weight: bold; }
+        .info { color: #b0b0b0; }
+    </style>
+</head>
+<body>
+    <h1>Login Anomaly Detector - Dashboard</h1>
+    <h2>Ostatnie alerty</h2>
+    {% if logs %}
+        {% for log in logs %}
+            <div class="log-box{% if log.type == 'ALERT' %} alert{% else %} info{% endif %}">
+                {{ log.msg }}
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>Brak logów do wyświetlenia.</p>
+    {% endif %}
+
+    <h2>Wykres: Liczba alertów na godzinę</h2>
+    <canvas id="alertChart" width="600" height="200"></canvas>
+    <script>
+        const ctx = document.getElementById('alertChart').getContext('2d');
+        const alertChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: {{ chart_labels|tojson }},
+                datasets: [{
+                    label: 'Alerty na godzinę',
+                    data: {{ chart_values|tojson }},
+                    backgroundColor: 'rgba(255, 111, 97, 0.7)'
+                }]
+            },
+            options: {
+                scales: {
+                    y: { beginAtZero: true }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
