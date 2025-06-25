@@ -1,6 +1,6 @@
 # Login Anomaly Detector
 
-Minimalistyczne narzędzie do wykrywania anomalii logowania i ataków brute-force w czasie rzeczywistym.
+Real-time login anomaly and brute-force attack detector with machine learning, SIEM/e-mail alerting, and a web dashboard.  
 
 ---
 
